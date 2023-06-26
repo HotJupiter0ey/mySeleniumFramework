@@ -2,6 +2,7 @@ package org.selenium.training.pages;
 
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
 public class CheckoutStepOnePage extends BasePage{
@@ -14,6 +15,7 @@ public class CheckoutStepOnePage extends BasePage{
     private final By postalCodeFieldLocator = By.id("postal-code");
     private final By continueButtonLocator = By.id("continue");
     private final By cancelButtonLocator = By.id("cancel");
+    private final By error = By.xpath("//*[@id=\"checkout_info_container\"]/div/form/div[1]/div[4]/h3");
 
     public void startPage() {
         openUrl("https://www.saucedemo.com/checkout-step-one.html");
@@ -28,5 +30,13 @@ public class CheckoutStepOnePage extends BasePage{
 
     public void clickCancel() {
         click(cancelButtonLocator);
+    }
+
+    public boolean isErrorMessageDisplayed() {
+        try {
+            return find(error).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 }

@@ -9,7 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class SaucedemoTest extends BaseTest {
+public class BuyingProcessTest extends BaseTest {
     String username;
     String password;
 
@@ -24,55 +24,7 @@ public class SaucedemoTest extends BaseTest {
         Assert.assertTrue(driver.getCurrentUrl().contains("/inventory.html"));
     }
 
-    @Test(priority = 1)
-    public void loginTest_badLogin_incorrectPassword() {
-        log.info("Starting negative login test");
-
-        LoginPage loginPage = new LoginPage(driver, log);
-        loginPage.startPage();
-        loginPage.Login(username, "incorrectPassword");
-        Assert.assertTrue(loginPage.isErrorMessageDisplayed());
-    }
-
-    @Test(priority = 2)
-    public void loginTest_goodLogin() {
-        log.info("Starting positive login test");
-
-        LoginPage loginPage = new LoginPage(driver, log);
-        loginPage.startPage();
-        loginPage.Login(username, password);
-        Assert.assertTrue(driver.getCurrentUrl().contains("/inventory.html"));
-    }
-
-    @Test(priority = 3)
-    public void addItemsToCart_success() {
-        log.info("Starting positive test for adding items to cart");
-        InventoryPage inventoryPage = new InventoryPage(driver, log);
-        inventoryPage.startPage();
-        inventoryPage.addItemsToTheCart();
-        Assert.assertTrue(inventoryPage.areButtonsChangeDisplayedNameToRemove());
-        Assert.assertTrue(inventoryPage.shoppingCartBadgeCountEqualsTo(2));
-    }
-
-    @Test(priority = 4)
-    public void deleteItemFromTheCartListPositiveTest() {
-        log.info("Starting positive test for item deleting from the cart list");
-        InventoryPage inventoryPage = new InventoryPage(driver, log);
-        inventoryPage.startPage();
-        inventoryPage.addItemsToTheCart();
-        CartPage cartPage = new CartPage(driver, log);
-        cartPage.startPage();
-        cartPage.removeLabsBackpackFromTheCart();
-        Assert.assertFalse(cartPage.isBackPackDeleted());
-        Assert.assertTrue(cartPage.isShoppingCartBadgeCountEquals1());
-        cartPage.clickContinueShoppingButton();
-        inventoryPage.startPage();
-        Assert.assertTrue(inventoryPage.isSauceLabsBackpackButtonDisplayed());
-        Assert.assertTrue(inventoryPage.shoppingCartBadgeCountEqualsTo(1));
-
-    }
-
-    @Test(priority = 5)
+    @Test
     public void fullBuyingProcessTest() {
         log.info("Starting full buying process test");
         InventoryPage inventoryPage = new InventoryPage(driver, log);
